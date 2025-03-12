@@ -8,7 +8,7 @@ RUN apk update \
     && curl -sSL https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz -o gcloud.tar.gz \
     && tar xzf gcloud.tar.gz \
     && rm gcloud.tar.gz \
-    && google-cloud-sdk/install.sh --disable-prompts --quiet \
+    && google-cloud-sdk/install.sh --quiet \
     && rm -rf google-cloud-sdk \
     && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
     && chmod +x kubectl \
