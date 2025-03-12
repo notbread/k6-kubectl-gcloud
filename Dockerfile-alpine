@@ -1,0 +1,23 @@
+FROM alpine:latest
+
+RUN apk update \
+    && apk upgrade --no-cache \
+    && apk add --no-cache \
+    curl \
+    python3 \
+    && curl -sSL https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz -o gcloud.tar.gz \
+    && tar xzf gcloud.tar.gz \
+    && rm gcloud.tar.gz \
+    && google-cloud-sdk/install.sh --disable-prompts --quiet \
+    && rm -rf google-cloud-sdk \
+    && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    && chmod +x kubectl \
+    && mv kubectl /usr/local/bin/ \
+    && curl -sSL https://github.com/grafana/k6/releases/download/v0.57.0/k6-v0.57.0-linux-amd64.tar.gz -o k6.tar.gz \
+    && tar xzf k6.tar.gz \
+    && mv k6 /usr/local/bin/ \
+    && rm k6.tar.gz \
+    && apk del --no-cache curl \
+    && rm -rf /var/cache/apk/*
+
+WORKDIR /app
