@@ -1,5 +1,7 @@
 FROM alpine:latest
 
+WORKDIR /opt
+
 RUN apk update \
     && apk upgrade --no-cache \
     && apk add --no-cache \
@@ -9,7 +11,6 @@ RUN apk update \
     && tar xzf gcloud.tar.gz \
     && rm gcloud.tar.gz \
     && google-cloud-sdk/install.sh --quiet \
-    && rm -rf google-cloud-sdk \
     && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
     && chmod +x kubectl \
     && mv kubectl /usr/local/bin/ \
@@ -21,5 +22,3 @@ RUN apk update \
     && chmod +x /usr/local/bin/k6 \
     && apk del --no-cache curl \
     && rm -rf /var/cache/apk/*
-
-WORKDIR /app
